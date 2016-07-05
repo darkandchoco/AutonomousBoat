@@ -1,0 +1,69 @@
+Xbee.h and Xbee.cpp:
+
+Modified sendDataTo to sendData.
+Added member int ctr, for use with all for loops.
+Added member SoftwareSerial* ZigBeeSerial
+Added memebers:
+	static const int xBeeRx = 6;
+	static const int xBeeTx = 7;
+Modified initZigBee: 
+    this->xBeeSerial = new SoftwareSerial(this->xBeeRx, this->xBeeTx);
+    this->myXBee.setSerial(*this->xBeeSerial);
+Modified sendData return type to bool. returns true if success, otherwise false.
+Removed 1 sec delay inside sendData.
+Modified readRssi return type to bool, return true if success.
+
+*TO TEST
+1. xbee software serial if still working.
+2. if method sendData returns true if success
+3. if method readRssi returns true or false.
+
+CSdCard.h and .cpp:
+Modified all sd to this->sd.
+Modified all myFile to this-myFile.
+
+CMotor.h and .cpp:
+Implemented startUp().
+
+CSensor.h and .cpp:
+
+Modified:     
+static const uint8_t salinitySensorRXPin = 2;
+static const uint8_t salinitySensorTXPin = 3;
+static const uint8_t compassSensorRXPin = 4;
+static const uint8_t compassSensorTXPin = 5;
+mySerial to salinitySerial
+mySerial2 to compassSerial
+
+Added in types.h:  
+static const int salinityBaudRate = 38400;
+static const int compassBaudRate = 9600;
+
+Changed implementation of initSensors():
+
+void CSensor::initSensors()
+{
+    analogReference(DEFAULT);
+    // initialize things needed by the software serial
+    //for Salinity Sensor
+    this->salinitySerial = new SoftwareSerial(this->salinitySensorRXPin,this->salinitySensorTXPin);
+    this->salinitySerial->begin(SENSOR::salinityBaudRate);
+    this->salinitySensorString.reserve(SENSOR::salinityStringSize);
+    //for digital compass
+    this->compassSerial = new SoftwareSerial(this->compassSensorRXPin, this->compassSensorTXPin);
+    this->compassSerial->begin(SENSOR::compassBaudRate);
+}
+
+Added member int ctr for all loops.
+Changed all ctr to this->ctr.
+
+Reimplemented readCompass().
+
+Cboat.h and Cboat.cpp
+Removed sendTestData of boat.
+
+
+todo:
+1. state chart
+2. compass code
+3. gps code.
